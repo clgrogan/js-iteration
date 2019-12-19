@@ -25,7 +25,11 @@
  *    // your code here
  * }
  */
-
+const yelling = words => {
+  return words.map(word => {
+    return word.toUpperCase()
+  })
+}
 // ...
 
 /**
@@ -37,6 +41,12 @@
 
 // ...
 
+const doubleTrouble = numbers => {
+  return numbers.map(number => {
+    return number * 2
+  })
+}
+
 /*
  * 3) Define a function stringyIndexes() that takes an array of
  * strings as an argument and returns a new array with each string
@@ -45,6 +55,12 @@
 
 // ...
 
+const stringyIndexes = strings => {
+  return strings.map((string, index) => {
+    return string + ' is at index ' + index.toString()
+  })
+}
+
 /*
  * 4) Define a function onlyTheEvenSurvive that accepts an array of
  * numbers and returns only the elements that are even
@@ -52,12 +68,28 @@
 
 // ...
 
+const onlyTheEvenSurvive = evensOnly => {
+  return evensOnly.filter(evenOnly => {
+    if (evenOnly % 2 == 0) {
+      return evenOnly
+    }
+  })
+}
+
 /*
  * 5) Define a function onlyTheEvenIndexedSurvive that accepts an array of
  * numbers and returns only the elements at indexes that are even
  */
 
 // ...
+
+const onlyTheEvenIndexedSurvive = numbers => {
+  return numbers.filter((number, index) => {
+    if (index % 2 == 0) {
+      return number
+    }
+  })
+}
 
 /*
  * 6)  Define a function bestMoviesOfTheYear that accepts an array of
@@ -75,12 +107,48 @@
 
 // ...
 
+// const bestMoviesOfTheYear = (movies, year) => {
+//   return movies.filter((movie, index) => {
+//     // if (movie.score > 90 && year === movie.year) {
+//     //   // return movie.name
+//     //   return true
+//     // } else {
+//     //   return false
+//     // }
+//     return movie.year === year && movie.score > 90
+//   })
+// }
+
+// Mark's stuff
+const bestMoviesOfTheYear = (movies, year) => {
+  return movies
+    .filter(movie => {
+      return movie.year === year && movie.score > 90
+    })
+    .map(movie => {
+      return movie.name
+    })
+  // Mark's long way logic
+  // const bestMovies = movies.filter(movie => {
+  //   return movie.year === year && movie.score > 90
+  // })
+  // return bestMovies.map(movie => {
+  //   return movie.name
+  // })
+}
 /*
  * 7) Define a function everyoneIsOdd that accepts an array of
  * numbers and returns true if every element of the array is
  * odd.
  */
-
+const everyoneIsOdd = numbers => {
+  for (let i = 0; i < numbers.length; i++) {
+    if (numbers[i] % 2 == 0) {
+      return false
+    }
+  }
+  return true
+}
 // ...
 
 /*
@@ -89,6 +157,17 @@
  * `needle` inside
  */
 
+const findTheNeedle = strings => {
+  for (let i = 0; i < strings.length; i++) {
+    let words = strings[i].split(' ')
+    for (let j = 0; j < words.length; j++) {
+      if (words[j] == 'needle') {
+        return strings[i]
+      }
+    }
+  }
+}
+
 // ...
 
 /*
@@ -96,7 +175,16 @@
  * strings and returns the index of the string that contains
  *  the word `needle` inside
  */
-
+const findTheNeedleIndex = strings => {
+  for (let i = 0; i < strings.length; i++) {
+    let words = strings[i].split(' ')
+    for (let j = 0; j < words.length; j++) {
+      if (words[j] == 'needle') {
+        return i
+      }
+    }
+  }
+}
 // ...
 
 /*
@@ -104,6 +192,15 @@
  * strings and returns true if at least one string is exactly
  * four characters long
  */
+
+const someoneToLove = strings => {
+  for (let i = 0; i < strings.length; i++) {
+    if (strings[i].length === 4) {
+      return true
+    }
+  }
+  return false
+}
 
 // ...
 
@@ -115,6 +212,14 @@
  *
  * So no using forEach, map, filter, reduce, etc.
  */
+
+const mapYourself = numbers => {
+  const numbersDoubled = []
+  for (let i = 0; i < numbers.length; i++) {
+    numbersDoubled.push(numbers[i] * 2)
+  }
+  return numbersDoubled
+}
 
 // ...
 
@@ -130,6 +235,13 @@
 
 // ...
 
+const filterYourself = numbers => {
+  for (let i = 0; i < numbers.length; i++) {
+    numbers[i] % 2 != 0 && numbers.splice(i, 1)
+  }
+  return numbers
+}
+
 /*
  * 13) Define a function everyYourself that accepts an
  * array of numbers and returns true if every number
@@ -139,7 +251,13 @@
  *
  * So no using forEach, map, filter, reduce, etc.
  */
-
+const everyYourself = numbers => {
+  let booly = true
+  for (let i = 0; i < numbers.length; i++) {
+    numbers[i] % 2 != 0 && (booly = false)
+  }
+  return booly
+}
 // ...
 
 /**
@@ -149,6 +267,7 @@
 /* eslint-disable no-undef */
 
 import test from 'ava'
+import { WSAECONNREFUSED } from 'constants'
 
 const ensureDefined = (t, method) => {
   if (eval(`typeof ${method}`) !== 'function') {
@@ -325,38 +444,20 @@ test('someoneToLove()', t => {
 
 test('Function Check - map yourself', t => ensureDefined(t, 'mapYourself'))
 test('mapYourself()', t => {
-  const originalMap = Array.prototype.map
-
-  Array.prototype.map = () => []
-
   t.deepEqual(mapYourself([1, 2, 3]), [2, 4, 6])
   t.deepEqual(mapYourself([9, 0, 1]), [18, 0, 2])
-
-  Array.prototype.map = originalMap
 })
 
 test('Function Check - filter yourself', t =>
   ensureDefined(t, 'filterYourself'))
 test('filterYourself()', t => {
-  const original = Array.prototype.filter
-
-  Array.prototype.filter = () => []
-
   t.deepEqual(filterYourself([8, 1, 2, 3]), [8, 2])
-
-  Array.prototype.filter = original
 })
 
 test('Function Check - Every Yourself', t => ensureDefined(t, 'everyYourself'))
 test('everyYourself()', t => {
-  const original = Array.prototype.every
-
-  Array.prototype.every = () => undefined
-
   t.deepEqual(everyYourself([8, 1, 2, 3]), false)
   t.deepEqual(everyYourself([8, 10, 22, 38]), true)
-
-  Array.prototype.every = original
 })
 
 /* eslint-enable */
